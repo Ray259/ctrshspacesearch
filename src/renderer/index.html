@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+    />
+    <title>LightSearch</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div id="app" class="panel" data-mode="files">
+      <div class="search-row">
+        <span id="mode-badge" class="mode-badge">Files</span>
+        <input
+          id="search-input"
+          class="search-input"
+          type="text"
+          spellcheck="false"
+          autocomplete="off"
+          placeholder="Search files…"
+        />
+        <button id="settings-button" class="icon-button" title="Settings" aria-label="Settings">⚙</button>
+      </div>
+
+      <div id="ai-summary" class="ai-summary hidden"></div>
+      <ul id="results" class="results"></ul>
+      <div id="empty-state" class="empty-state hidden"></div>
+
+      <form id="settings-panel" class="settings-panel hidden">
+        <h2>Settings</h2>
+        <label>
+          AI provider
+          <select name="aiProvider">
+            <option value="openrouter">OpenRouter (free models)</option>
+            <option value="gemini">Google Gemini</option>
+          </select>
+        </label>
+        <label data-provider="gemini">
+          Gemini API key
+          <input name="geminiApiKey" type="password" placeholder="AIza…" />
+        </label>
+        <label data-provider="gemini">
+          Gemini model
+          <input name="geminiModel" type="text" />
+        </label>
+        <label data-provider="openrouter">
+          OpenRouter API key
+          <input name="openRouterApiKey" type="password" placeholder="sk-or-…" />
+        </label>
+        <label data-provider="openrouter">
+          OpenRouter model
+          <input name="openRouterModel" type="text" />
+        </label>
+        <label>
+          Search shortcut
+          <input name="searchShortcut" type="text" />
+        </label>
+        <label>
+          AI search shortcut
+          <input name="aiSearchShortcut" type="text" />
+        </label>
+        <div class="settings-actions">
+          <button type="button" id="rebuild-index">Rebuild index</button>
+          <button type="submit" class="primary">Save</button>
+        </div>
+      </form>
+
+      <div class="footer">
+        <span id="index-status"></span>
+        <span class="hints">
+          <kbd>Tab</kbd> switch mode · <kbd>↵</kbd> open · <kbd>⌘↵</kbd> reveal · <kbd>esc</kbd> hide
+        </span>
+      </div>
+    </div>
+    <script src="./index.js"></script>
+  </body>
+</html>
