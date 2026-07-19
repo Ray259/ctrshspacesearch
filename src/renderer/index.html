@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+    />
+    <title>LightSearch</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div id="app" class="panel" data-mode="all">
+      <div class="search-row">
+        <span id="mode-badge" class="mode-badge">All</span>
+        <input
+          id="search-input"
+          class="search-input"
+          type="text"
+          spellcheck="false"
+          autocomplete="off"
+          placeholder="Search apps and files…"
+        />
+        <button id="settings-button" class="icon-button" title="Settings" aria-label="Settings">⚙</button>
+      </div>
+
+      <div id="ai-summary" class="ai-summary hidden"></div>
+      <div id="result-count" class="result-count hidden"></div>
+      <div id="results-area" class="results-area">
+        <ul id="results" class="results"></ul>
+        <aside id="ai-preview" class="ai-preview hidden">
+          <div id="ai-preview-title" class="ai-preview-title"></div>
+          <ul id="ai-preview-list" class="ai-preview-list"></ul>
+        </aside>
+      </div>
+      <div id="empty-state" class="empty-state hidden"></div>
+      <div id="debug-panel" class="debug-panel hidden"></div>
+
+      <form id="settings-panel" class="settings-panel hidden">
+        <h2>Settings</h2>
+        <label>
+          AI provider
+          <select name="aiProvider">
+            <option value="openrouter">OpenRouter (free models)</option>
+            <option value="gemini">Google Gemini</option>
+          </select>
+        </label>
+        <label data-provider="gemini">
+          Gemini API key
+          <input name="geminiApiKey" type="password" placeholder="AIza…" />
+        </label>
+        <label data-provider="gemini">
+          Gemini model
+          <input name="geminiModel" type="text" />
+        </label>
+        <label data-provider="openrouter">
+          OpenRouter API key
+          <input name="openRouterApiKey" type="password" placeholder="sk-or-…" />
+        </label>
+        <label data-provider="openrouter">
+          OpenRouter model (free)
+          <select name="openRouterModel"></select>
+        </label>
+        <label>
+          Search shortcut
+          <input name="searchShortcut" type="text" />
+        </label>
+        <label>
+          AI search shortcut
+          <input name="aiSearchShortcut" type="text" />
+        </label>
+        <label>
+          AI search strategy
+          <select name="aiSearchStrategy">
+            <option value="plan">Query Plan (high privacy)</option>
+            <option value="context">Context-Aware (sends file structure to provider)</option>
+          </select>
+        </label>
+        <label>
+          Max agent steps
+          <input name="agenticMaxSteps" type="number" min="1" max="30" step="1" />
+        </label>
+        <label>
+          Semantic model (local)
+          <select name="semanticModel">
+            <option value="english">English — MiniLM-L6 (~90 MB)</option>
+            <option value="multilingual">Multilingual — MiniLM-L12 (~220 MB)</option>
+          </select>
+        </label>
+        <label>
+          Max indexed files
+          <input name="maxIndexedFiles" type="number" min="1000" max="2000000" step="1000" />
+        </label>
+        <label>
+          Max semantic files (0 disables)
+          <input name="maxSemanticFiles" type="number" min="0" max="100000" step="500" />
+        </label>
+        <label>
+          Query time budget (ms)
+          <input name="maxQueryTimeMs" type="number" min="50" max="10000" step="10" />
+        </label>
+        <div class="settings-actions">
+          <button type="button" id="rebuild-index">Rebuild index</button>
+          <button type="submit" class="primary">Save</button>
+        </div>
+      </form>
+
+      <div class="footer">
+        <span id="index-status"></span>
+        <span class="hints">
+          <kbd>Tab</kbd> mode · <kbd>↵</kbd> open · <kbd>⌘↵</kbd> reveal · <kbd>⌘D</kbd> debug · <kbd>esc</kbd> hide
+        </span>
+      </div>
+    </div>
+    <script src="./index.js"></script>
+  </body>
+</html>

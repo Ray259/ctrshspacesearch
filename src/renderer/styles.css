@@ -1,0 +1,509 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --bg: rgba(28, 28, 32, 0.92);
+  --bg-raised: rgba(255, 255, 255, 0.06);
+  --border: rgba(255, 255, 255, 0.12);
+  --text: #f2f2f4;
+  --text-dim: #9a9aa3;
+  --accent: #4d9dff;
+  --accent-apps: #2fb26b;
+  --accent-ai: #b07cff;
+}
+
+html,
+body {
+  background: transparent;
+  font-family: -apple-system, 'Segoe UI', system-ui, sans-serif;
+  color: var(--text);
+  overflow: hidden;
+  user-select: none;
+}
+
+.panel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 452px;
+  margin: 4px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(24px);
+  overflow: hidden;
+}
+
+.search-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.mode-badge {
+  flex-shrink: 0;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+  background: var(--accent);
+  color: #fff;
+}
+
+.panel[data-mode='ai'] .mode-badge {
+  background: var(--accent-ai);
+}
+
+.panel[data-mode='apps'] .mode-badge {
+  background: var(--accent-apps);
+}
+
+.search-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--text);
+  font-size: 22px;
+  font-weight: 300;
+}
+
+.search-input::placeholder {
+  color: var(--text-dim);
+}
+
+.icon-button {
+  background: transparent;
+  border: none;
+  color: var(--text-dim);
+  font-size: 18px;
+  cursor: pointer;
+  padding: 4px 6px;
+  border-radius: 6px;
+}
+
+.icon-button:hover {
+  color: var(--text);
+  background: var(--bg-raised);
+}
+
+.ai-summary {
+  padding: 10px 16px;
+  font-size: 13px;
+  color: var(--text-dim);
+  border-bottom: 1px solid var(--border);
+}
+
+.ai-summary.error {
+  color: #ff8a80;
+}
+
+.ai-summary-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.ai-summary-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.back-button {
+  flex-shrink: 0;
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: 6px;
+  padding: 2px 9px;
+  font-size: 11px;
+  cursor: pointer;
+}
+
+.back-button:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.ai-insight {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--text);
+  opacity: 0.88;
+}
+
+.result-count {
+  padding: 8px 16px 0;
+  font-size: 11px;
+  color: var(--text-dim);
+}
+
+.results-area {
+  flex: 1;
+  display: flex;
+  min-height: 0;
+}
+
+.results {
+  flex: 1;
+  list-style: none;
+  overflow-y: auto;
+  padding: 6px;
+}
+
+/* While keyboard focus is inside the preview pane, the list selection dims. */
+.results-area.preview-active .results .result.selected {
+  background: var(--bg-raised);
+}
+
+.ai-preview {
+  width: 45%;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  border-left: 1px solid var(--border);
+}
+
+.ai-preview-title {
+  padding: 10px 12px 2px;
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.7px;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+.ai-preview-list {
+  flex: 1;
+  list-style: none;
+  overflow-y: auto;
+  padding: 6px;
+}
+
+.ai-preview-list .result {
+  gap: 8px;
+  padding: 6px 8px;
+}
+
+.ai-preview-list .result-name {
+  font-size: 12.5px;
+}
+
+.ai-preview-list .result-dir {
+  font-size: 10.5px;
+}
+
+.preview-empty {
+  padding: 14px 12px;
+  font-size: 11.5px;
+  color: var(--text-dim);
+}
+
+.result {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  cursor: default;
+}
+
+.result.selected {
+  background: var(--accent);
+}
+
+.panel[data-mode='ai'] .result.selected,
+.result.action.selected {
+  background: var(--accent-ai);
+}
+
+.section-title {
+  padding: 8px 10px 3px;
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.7px;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+.result.action .result-name {
+  color: var(--accent-ai);
+  font-weight: 500;
+}
+
+.result.action.selected .result-name {
+  color: #fff;
+}
+
+.result-icon {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-dim);
+}
+
+.result-icon svg {
+  width: 18px;
+  height: 18px;
+}
+
+.result-app-icon {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+}
+
+.result.selected .result-icon {
+  color: #fff;
+}
+
+.result.action .result-icon {
+  color: var(--accent-ai);
+}
+
+.result.action.selected .result-icon {
+  color: #fff;
+}
+
+.result-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.result-name {
+  font-size: 14px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.result-dir,
+.result-snippet {
+  font-size: 11.5px;
+  color: var(--text-dim);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.result.selected .result-dir,
+.result.selected .result-snippet,
+.result.selected .result-meta {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.result-meta {
+  flex-shrink: 0;
+  font-size: 11px;
+  color: var(--text-dim);
+  text-align: right;
+}
+
+.empty-state {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-dim);
+  font-size: 13px;
+  padding: 0 40px;
+  text-align: center;
+}
+
+.settings-panel {
+  flex: 1;
+  overflow-y: auto;
+  padding: 14px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.settings-panel h2 {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.settings-panel label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 12px;
+  color: var(--text-dim);
+}
+
+.settings-panel input,
+.settings-panel select {
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  padding: 7px 9px;
+  font-size: 13px;
+  outline: none;
+}
+
+.settings-panel input:focus,
+.settings-panel select:focus {
+  border-color: var(--accent);
+}
+
+.settings-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.settings-actions button {
+  border: 1px solid var(--border);
+  background: var(--bg-raised);
+  color: var(--text);
+  border-radius: 6px;
+  padding: 7px 14px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.settings-actions button.primary {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.debug-panel {
+  position: absolute;
+  inset: 62px 0 30px;
+  z-index: 5;
+  background: var(--bg);
+  overflow-y: auto;
+  padding: 12px 18px;
+  font-size: 11.5px;
+}
+
+.debug-panel h2 {
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.debug-panel h3 {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: var(--text-dim);
+  margin: 10px 0 4px;
+}
+
+.debug-panel pre {
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 8px 10px;
+  font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  font-size: 11px;
+  line-height: 1.45;
+  white-space: pre-wrap;
+  word-break: break-word;
+  user-select: text;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 7px 14px;
+  font-size: 11px;
+  color: var(--text-dim);
+  border-top: 1px solid var(--border);
+}
+
+kbd {
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 1px 5px;
+  font-family: inherit;
+  font-size: 10px;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* Custom scrollbars for every scrollable pane, in place of the OS default. */
+.results,
+.ai-preview-list,
+.settings-panel,
+.debug-panel {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+}
+
+.results::-webkit-scrollbar,
+.ai-preview-list::-webkit-scrollbar,
+.settings-panel::-webkit-scrollbar,
+.debug-panel::-webkit-scrollbar {
+  width: 8px;
+}
+
+.results::-webkit-scrollbar-track,
+.ai-preview-list::-webkit-scrollbar-track,
+.settings-panel::-webkit-scrollbar-track,
+.debug-panel::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.results::-webkit-scrollbar-thumb,
+.ai-preview-list::-webkit-scrollbar-thumb,
+.settings-panel::-webkit-scrollbar-thumb,
+.debug-panel::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+.results:hover::-webkit-scrollbar-thumb,
+.ai-preview-list:hover::-webkit-scrollbar-thumb,
+.settings-panel:hover::-webkit-scrollbar-thumb,
+.debug-panel:hover::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.32);
+}
+
+.results::-webkit-scrollbar-thumb:hover,
+.ai-preview-list::-webkit-scrollbar-thumb:hover,
+.settings-panel::-webkit-scrollbar-thumb:hover,
+.debug-panel::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(255, 255, 255, 0.45);
+}
+
+.spinner {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border: 2px solid var(--text-dim);
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  vertical-align: -2px;
+  margin-right: 6px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
